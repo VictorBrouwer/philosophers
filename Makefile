@@ -13,6 +13,9 @@ endif
 INCLUDE		:= $(addprefix -I,$(INC_DIR))
 
 SRCS		:= 		main.c \
+					multithread.c \
+					error_handling.c \
+					eating.c \
 
 OBJS		:= 		$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
 DEP			:=		$(OBJS:%.o=%.d)
