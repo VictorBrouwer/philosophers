@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:29:14 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/12 16:56:57 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/13 13:28:54 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void				multi_thread(t_info *info);
 void				*routine(void *philos_arg);
 void				start_sleeping(t_philo *philo);
 void				start_thinking(t_philo *philo);
-void				die(t_philo *philo);
 //		ERROR_HANDLING,C
 void				error(const char *str, int errno);
 void				ft_putstr_fd(const char *s, int fd);
@@ -61,6 +60,8 @@ void				ft_putstr_fd(const char *s, int fd);
 void				start_eating(t_philo *philo);
 void				lock_forks(t_philo *philo);
 void				unlock_forks(t_philo *philo);
-
+//		DEATH.C
+void				check_for_death(t_philo *philo);
+void				die(t_philo *philo);
 
 # endif

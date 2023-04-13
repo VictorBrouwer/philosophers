@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:35:52 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/12 16:10:58 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/13 13:25:39 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	t_info	*info;
 
 	if (argc != 5 && argc != 6)
-		exit(EXIT_FAILURE);
+		return(ft_putstr_fd("wrong number of arguments", STDERR_FILENO), 0);
 	info = malloc(sizeof(t_info));
 	init_info(argv, argc, info);
 	multi_thread(info);
