@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 15:01:12 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/18 11:05:58 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/18 16:56:48 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,20 @@ int	join_philos(t_philo *philos)
 
 int	observe(t_philo *philos)
 {
+	int	i;
+
 	while (1)
 	{
-		if (philos->info->is_dead == 1)
-			return (EXIT_FAILURE);
+		i = 0;
+		while (i <= philos->info->philo_count)
+		{
+			printf("observing %d\n", i);
+			if (check_for_death(&philos[i]) == 1)
+				return (EXIT_FAILURE);
+			// pthread_mutex_lock(&philos->info->start_mutex);
+			// pthread_mutex_unlock(&philos->info->start_mutex);
+			i++;
+		}
 	}
 }
 
@@ -56,11 +66,13 @@ void	*routine(void *arg)
 	philo = (t_philo *) arg;	
 	while(1)
 	{
+		// pthread_mutex_lock(&philo->info->start_mutex);
 		start_eating(philo);
 		start_sleeping(philo);
 		start_thinking(philo);
 		if (philo->meals_done >= philo->info->meals_to_finish && philo->info->meals_to_finish != -1)
 			break ;
+		// pthread_mutex_unlock(&philo->info->start_mutex);
 	}
 	return ((void *)philo);
 }

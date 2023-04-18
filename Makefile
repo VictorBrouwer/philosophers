@@ -18,6 +18,7 @@ SRCS		:= 		main.c \
 					tasks.c \
 					death.c \
 					time.c \
+					sleep.c \
 
 OBJS		:= 		$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
 DEP			:=		$(OBJS:%.o=%.d)

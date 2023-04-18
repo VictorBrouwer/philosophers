@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:29:14 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/18 11:05:20 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/18 15:27:10 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 # include <errno.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 // 					STRUCTS
 
@@ -30,10 +31,11 @@ typedef	struct s_info
 	int				time_to_sleep;
 	int				meals_to_finish;
 	int				philo_count;
-	int				is_dead;
+	bool			is_dead;
 	unsigned long	start_of_day;
 	pthread_mutex_t	*forks;
 	pthread_t		*threads;
+	pthread_mutex_t	start_mutex;
 }				t_info;
 
 typedef struct s_philo
@@ -64,12 +66,13 @@ int					ft_atoi_prot(const char *str);
 void				start_eating(t_philo *philo);
 void				lock_forks(t_philo *philo);
 void				unlock_forks(t_philo *philo);
-void				start_sleeping(t_philo *philo);
 void				start_thinking(t_philo *philo);
 //		DEATH.C
-void				check_for_death(t_philo *philo);
-void				die(t_philo *philo);
+int					check_for_death(t_philo *philo);
 //		TIME.C
 unsigned long		get_time_start(void);
 unsigned long		get_time(t_philo *philo);
+//		SLEEP.C
+void				start_sleeping(t_philo *philo);
+
 # endif

@@ -6,13 +6,13 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 13:22:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/17 14:14:55 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/18 14:08:52 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-void	check_for_death(t_philo *philo)
+int	check_for_death(t_philo *philo)
 {
 	int		time_since_last_meal;
 
@@ -22,5 +22,7 @@ void	check_for_death(t_philo *philo)
 	{
 		printf("%lu %d died\n", get_time(philo), philo->id);
 		philo->info->is_dead = 1; // gebruik hier een mutex
+		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }

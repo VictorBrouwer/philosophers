@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:35:52 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/18 11:05:33 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/18 15:28:29 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_info	*init_info(char **argv, int argc)
 	info->threads = malloc(sizeof(pthread_t) * info->philo_count);
 	if (!info->threads)
 		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
+	pthread_mutex_init(&info->start_mutex, NULL);
 	return (info);
 }
 
