@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:35:52 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/13 13:25:39 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/18 11:05:33 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,87 +14,81 @@
 
 int	main(int argc, char **argv)
 {
-	t_info	*info;
+	t_philo			*philos;
+	t_info			*info;
 
 	if (argc != 5 && argc != 6)
 		return(ft_putstr_fd("wrong number of arguments", STDERR_FILENO), 0);
-	info = malloc(sizeof(t_info));
-	init_info(argv, argc, info);
-	multi_thread(info);
+	info = init_info(argv, argc);
+	philos = init_philos(info);
+	if (multi_thread(philos) == 0)
+		observe(philos);
+	join_philos(philos);
 	return (0);
 }
 
-void	init_info(char **argv, int argc, t_info *info)
+t_info	*init_info(char **argv, int argc)
 {
-	int					i;
+	t_info	*info;
 
+	info = malloc(sizeof(t_info));
+	if (!info)
+		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	info->philo_count = ft_atoi_prot(argv[1]);
-	info->forks = malloc(sizeof(pthread_mutex_t) * info->philo_count);
+	info->start_of_day = get_time_start();
+	info->is_dead = 0;
+	info->time_to_die = ft_atoi_prot(argv[2]);
+	info->time_to_eat = ft_atoi_prot(argv[3]);
+	info->time_to_sleep = ft_atoi_prot(argv[4]);
+	if (argc == 6)
+		info->meals_to_finish = ft_atoi_prot(argv[5]);
+	else
+		info->meals_to_finish = -1;
+	info->forks = init_forks(info->philo_count);
+	info->threads = malloc(sizeof(pthread_t) * info->philo_count);
+	if (!info->threads)
+		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
+	return (info);
+}
+
+pthread_mutex_t	*init_forks(int philo_count)
+{
+	pthread_mutex_t	*forks;
+	int				i;
+
+	forks = malloc(sizeof(pthread_mutex_t) * philo_count);
+	if (!forks)
+		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
+	i = 0;
+	while (i < philo_count)
+	{
+		pthread_mutex_init(&forks[i], NULL);
+		i++;
+	}
+	return (forks);
+}
+
+t_philo	*init_philos(t_info *info)
+{
+	t_philo	*philos;
+	int		i;
+ 
+	philos = malloc(sizeof(t_philo) * info->philo_count);
+	if (!philos)
+		return (NULL);
 	i = 0;
 	while (i < info->philo_count)
 	{
-		pthread_mutex_init(&info->forks[i], NULL);
-		i++;
-	}
-	info->philos = init_philos(info->philo_count, info->forks, argv, argc);
-}
-
-t_philo	*init_philos(int philo_count, pthread_mutex_t *forks, char **argv, int argc)
-{
-	t_philo				*philos;
-	int					i;
-
-	i = 0;
-	philos = malloc(sizeof(t_philo) * philo_count);
-	if (!philos)
-		exit(EXIT_FAILURE);
-	while (i < philo_count)
-	{
 		philos[i].id = i + 1;
-		philos[i].fork_1 = &forks[i];
-		if (i < (philo_count - 1))
-			philos[i].fork_2 = &forks[i + 1];
+		philos[i].fork_1 = &info->forks[i];
+		if (i < (info->philo_count - 1))
+			philos[i].fork_2 = &info->forks[i + 1];
 		else
-			philos[i].fork_2 = &forks[0];
-		philos[i].time_to_die = ft_atoi_prot(argv[2]);
-		philos[i].time_to_eat = ft_atoi_prot(argv[3]);
-		philos[i].time_to_sleep = ft_atoi_prot(argv[4]);
-		philos[i].is_dead = 0;
+			philos[i].fork_2 = &info->forks[0];
+		philos[i].meals_done = 0;
 		philos[i].time_last_meal = 0;
-		if (argc == 6)
-			philos[i].meals_to_finish = ft_atoi_prot(argv[5]);
-		else
-			philos[i].meals_to_finish = -1;
+		philos[i].info = info;
 		i++;
 	}
 	return (philos);
-}
-
-int	ft_atoi_prot(const char *str)
-{
-	int	x;
-	int	sign;
-	int	result;
-
-	x = 0;
-	sign = 1;
-	result = 0;
-	while (str[x] == 32 || (str[x] >= 9 && str[x] <= 13))
-		x++;
-	if (str[x] == '-')
-	{
-		sign = -1;
-		x++;
-	}
-	else if (str[x] == '+')
-		x++;
-	while (str[x] && str[x] >= '0' && str[x] <= '9')
-	{
-		result = result * 10;
-		result = result + (str[x] - '0');
-		if (result < 0 && (result != INT_MIN || sign == 1))
-			exit(EXIT_FAILURE);
-		x++;
-	}
-	return (result * sign);
 }

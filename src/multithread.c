@@ -6,72 +6,61 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 15:01:12 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/13 13:53:47 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/18 11:05:58 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	multi_thread(t_info *info)
+int	multi_thread(t_philo *philos)
 {
-	pthread_t	*threads;
-	int			i;
+	int				i;
 
-	threads = malloc(sizeof(pthread_t) * info->philo_count);
-	if (!threads)
-		return(ft_putstr_fd("malloc error", STDERR_FILENO));
 	i = 0;
-	while (i < info->philo_count)
+	while (i < philos->info->philo_count)
 	{
-		if (pthread_create(&threads[i], NULL, &routine, (void *)&info->philos[i])!= 0)
-			exit(EXIT_FAILURE);
+		if (pthread_create(&philos->info->threads[i], NULL, &routine, (void *)&philos[i])!= 0)
+			return (EXIT_FAILURE);
 		i++;
 	}
-	i = 0;
-	while(i < info->philo_count)
-	{
-		if (pthread_join(threads[i], (void **) &info->philos[i]) != 0)
-			exit(EXIT_FAILURE);
-		i++;
-	}
-	return ;
+	return (EXIT_SUCCESS);
 }
 
-void	*routine(void *philos_arg)
+int	join_philos(t_philo *philos)
+{
+	int	i;
+
+	i = 0;
+	while(i < philos->info->philo_count)
+	{
+		if (pthread_join(philos->info->threads[i], NULL) != 0)
+			exit(EXIT_FAILURE);
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	observe(t_philo *philos)
+{
+	while (1)
+	{
+		if (philos->info->is_dead == 1)
+			return (EXIT_FAILURE);
+	}
+}
+
+void	*routine(void *arg)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)philos_arg;
-	while(philo->is_dead == 0)
+	philo = (t_philo *) arg;	
+	while(1)
 	{
 		start_eating(philo);
 		start_sleeping(philo);
 		start_thinking(philo);
-		if (philo->meals_done >= philo->meals_to_finish && philo->meals_to_finish != -1)
+		if (philo->meals_done >= philo->info->meals_to_finish && philo->info->meals_to_finish != -1)
 			break ;
 	}
 	return ((void *)philo);
-}
-
-void	start_sleeping(t_philo *philo)
-{
-	struct timeval tv;
-
-	if (philo->is_dead == 1)
-		return ;
-	if (gettimeofday(&tv, NULL) == -1)
-		exit(EXIT_FAILURE);
-	printf("%d %d is sleeping\n", (tv.tv_usec / 1000), philo->id);
-	usleep(1000 * philo->time_to_sleep);
-}
-
-void	start_thinking(t_philo *philo)
-{
-	struct timeval tv;
-
-	if (philo->is_dead == 1)
-		return ;
-	if (gettimeofday(&tv, NULL) == -1)
-		exit(EXIT_FAILURE);
-	printf("%d %d is thinking\n", (tv.tv_usec / 1000), philo->id);
 }
