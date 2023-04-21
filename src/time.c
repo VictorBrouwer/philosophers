@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 09:37:56 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/17 14:20:38 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/18 17:37:24 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,7 @@ unsigned long	get_time_start(void)
 
 unsigned long	get_time(t_philo *philo)
 {
+	// pthread_mutex_lock(&philo->info->time_mutex);
 	return ((get_time_start() - philo->info->start_of_day));
+	// pthread_mutex_unlock(&philo->info->time_mutex);
 }

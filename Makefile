@@ -7,7 +7,7 @@ INC_DIR		:=	./include
 CFLAGS	= -Wextra -Wall -Werror
 
 ifdef DEBUG
-CFLAGS +=-g
+CFLAGS +=-fsanitize=address
 endif
 
 INCLUDE		:= $(addprefix -I,$(INC_DIR))
@@ -19,6 +19,7 @@ SRCS		:= 		main.c \
 					death.c \
 					time.c \
 					sleep.c \
+					eat.c \
 
 OBJS		:= 		$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
 DEP			:=		$(OBJS:%.o=%.d)

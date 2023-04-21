@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 15:01:12 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/18 16:56:48 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/21 11:17:32 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,39 @@ int	multi_thread(t_philo *philos)
 	int				i;
 
 	i = 0;
+	pthread_mutex_lock(&philos->info->start_mutex);
 	while (i < philos->info->philo_count)
 	{
 		if (pthread_create(&philos->info->threads[i], NULL, &routine, (void *)&philos[i])!= 0)
+		{
+			pthread_mutex_unlock(&philos->info->start_mutex);
 			return (EXIT_FAILURE);
+		}
 		i++;
 	}
+	philos->info->start_of_day = get_time_start();
+	pthread_mutex_unlock(&philos->info->start_mutex);
 	return (EXIT_SUCCESS);
+}
+
+int	observe(t_philo *philos)
+{
+	int	i;
+
+	while (1)
+	{
+		i = 0;
+		while (i < philos->info->philo_count)
+		{
+			// printf("observing %d\n", i);
+			if (check_for_eol(&philos[i]) == 1)
+			{
+				die(&philos[i]);
+				return (EXIT_FAILURE);
+			}
+			i++;
+		}
+	}
 }
 
 int	join_philos(t_philo *philos)
@@ -40,39 +66,20 @@ int	join_philos(t_philo *philos)
 	return (EXIT_SUCCESS);
 }
 
-int	observe(t_philo *philos)
-{
-	int	i;
+// void	*routine(void *arg)
+// {
+// 	t_philo	*philo;
 
-	while (1)
-	{
-		i = 0;
-		while (i <= philos->info->philo_count)
-		{
-			printf("observing %d\n", i);
-			if (check_for_death(&philos[i]) == 1)
-				return (EXIT_FAILURE);
-			// pthread_mutex_lock(&philos->info->start_mutex);
-			// pthread_mutex_unlock(&philos->info->start_mutex);
-			i++;
-		}
-	}
-}
-
-void	*routine(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *) arg;	
-	while(1)
-	{
-		// pthread_mutex_lock(&philo->info->start_mutex);
-		start_eating(philo);
-		start_sleeping(philo);
-		start_thinking(philo);
-		if (philo->meals_done >= philo->info->meals_to_finish && philo->info->meals_to_finish != -1)
-			break ;
-		// pthread_mutex_unlock(&philo->info->start_mutex);
-	}
-	return ((void *)philo);
-}
+// 	philo = (t_philo *) arg;	
+// 	while(1)
+// 	{
+// 		if (start_eating(philo) == 1)
+// 			break ;
+// 		start_sleeping(philo);
+// 		if (start_thinking(philo) == 1)
+// 			break ;
+// 		if (philo->meals_done >= philo->info->meals_to_finish && philo->info->meals_to_finish != -1)
+// 			break ;
+// 	}
+// 	return ((void *)philo);
+// }

@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:35:52 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/18 15:28:29 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/21 11:17:55 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_info	*init_info(char **argv, int argc)
 	if (!info)
 		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	info->philo_count = ft_atoi_prot(argv[1]);
-	info->start_of_day = get_time_start();
-	info->is_dead = 0;
 	info->time_to_die = ft_atoi_prot(argv[2]);
 	info->time_to_eat = ft_atoi_prot(argv[3]);
 	info->time_to_sleep = ft_atoi_prot(argv[4]);
@@ -49,6 +47,8 @@ t_info	*init_info(char **argv, int argc)
 	if (!info->threads)
 		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	pthread_mutex_init(&info->start_mutex, NULL);
+	info->is_dead = 0;
+	pthread_mutex_init(&info->death_mutex, NULL);
 	return (info);
 }
 
@@ -89,6 +89,8 @@ t_philo	*init_philos(t_info *info)
 		philos[i].meals_done = 0;
 		philos[i].time_last_meal = 0;
 		philos[i].info = info;
+		pthread_mutex_init(&philos[i].print_mutex, NULL);
+		pthread_mutex_init(&philos[i].meals_mutex, NULL);
 		i++;
 	}
 	return (philos);
