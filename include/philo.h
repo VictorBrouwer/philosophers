@@ -6,12 +6,15 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:29:14 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 15:45:30 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:02:07 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
+
+# define ERROR 1
+# define SUCCES 0
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -24,7 +27,7 @@
 
 // 					STRUCTS
 
-typedef	struct s_info
+typedef struct s_info
 {
 	int				time_to_die;
 	int				time_to_eat;
@@ -68,22 +71,22 @@ int					ft_atoi_prot(const char *str);
 int					check_args(char **argv, int argc);
 //		TASKS.C
 void				*routine(void *philos_arg);
-int					print_action(t_philo *philo, char *action);
 void				uneven_group(t_philo *philo);
 void				even_group(t_philo *philo);
+int					print_action(t_philo *philo, char *action);
 //		DEATH.C
 int					check_for_eol(t_philo *philo);
 void				die(t_philo *philo);
 int					check_for_starvation(t_philo *philo);
+int					check_full_philos(t_philo *philo);
 //		TIME.C
 unsigned long		get_time_start(void);
 unsigned long		get_time(t_philo *philo);
 //		SLEEP.C
 int					start_sleeping(t_philo *philo, int time);
 //		EAT.C
-void				update_meals(t_philo *philo);
 int					start_eating(t_philo *philo);
 int					take_forks(t_philo *philo);
-int					check_full_philos(t_philo *philo);
+void				update_meals(t_philo *philo);
 
-# endif
+#endif

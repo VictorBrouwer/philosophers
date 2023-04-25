@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:35:52 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 11:53:13 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:05:03 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	main(int argc, char **argv)
 	t_info			*info;
 
 	if (argc != 5 && argc != 6)
-		return(ft_putstr_fd("wrong number of arguments", STDERR_FILENO), 0);
+		return (ft_putstr_fd("wrong number of arguments", STDERR_FILENO), 0);
 	if (check_args(argv, argc) == 1)
-		return(ft_putstr_fd("error", STDERR_FILENO), 0);
+		return (ft_putstr_fd("error", STDERR_FILENO), 0);
 	info = init_info(argv, argc);
 	philos = init_philos(info);
 	if (multi_thread(philos) == 0)
@@ -35,7 +35,7 @@ t_info	*init_info(char **argv, int argc)
 
 	info = malloc(sizeof(t_info));
 	if (!info)
-		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
+		return (ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	info->philo_count = ft_atoi_prot(argv[1]);
 	info->full_philo_count = 0;
 	info->time_to_die = ft_atoi_prot(argv[2]);
@@ -48,7 +48,7 @@ t_info	*init_info(char **argv, int argc)
 	info->forks = init_forks(info->philo_count);
 	info->threads = malloc(sizeof(pthread_t) * info->philo_count);
 	if (!info->threads)
-		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
+		return (ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	pthread_mutex_init(&info->start_mutex, NULL);
 	pthread_mutex_init(&info->full_philo_mutex, NULL);
 	info->is_dead = 0;
@@ -63,7 +63,7 @@ pthread_mutex_t	*init_forks(int philo_count)
 
 	forks = malloc(sizeof(pthread_mutex_t) * philo_count);
 	if (!forks)
-		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
+		return (ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	i = 0;
 	while (i < philo_count)
 	{
@@ -77,7 +77,7 @@ t_philo	*init_philos(t_info *info)
 {
 	t_philo	*philos;
 	int		i;
- 
+
 	philos = malloc(sizeof(t_philo) * info->philo_count);
 	if (!philos)
 		return (NULL);

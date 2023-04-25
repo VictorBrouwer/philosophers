@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:45:11 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 15:37:31 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/25 16:03:50 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_atoi_prot(const char *str)
 		result = result * 10;
 		result = result + (str[x] - '0');
 		if (result < 0 && (result != INT_MIN || sign == 1))
-			exit(EXIT_FAILURE);
+			exit(ERROR);
 		x++;
 	}
 	return (result * sign);
@@ -65,8 +65,8 @@ int	check_args(char **argv, int argc)
 	tte = ft_atoi_prot(argv[3]);
 	tts = ft_atoi_prot(argv[4]);
 	if (count < 1 || ttd < 1 || tte < 1 || tts < 1)
-		return (EXIT_FAILURE);
+		return (ERROR);
 	if (argc == 6 && (ft_atoi_prot(argv[5]) < 1))
-		return (EXIT_FAILURE);
+		return (ERROR);
 	return (EXIT_SUCCESS);
 }
