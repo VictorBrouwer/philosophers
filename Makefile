@@ -7,7 +7,7 @@ INC_DIR		:=	./include
 CFLAGS	= -Wextra -Wall -Werror
 
 ifdef DEBUG
-CFLAGS +=-fsanitize=address
+CFLAGS +=-fsanitize=thread
 endif
 
 INCLUDE		:= $(addprefix -I,$(INC_DIR))

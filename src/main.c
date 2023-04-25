@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:35:52 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/21 11:17:55 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/25 11:53:13 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 5 && argc != 6)
 		return(ft_putstr_fd("wrong number of arguments", STDERR_FILENO), 0);
+	if (check_args(argv, argc) == 1)
+		return(ft_putstr_fd("error", STDERR_FILENO), 0);
 	info = init_info(argv, argc);
 	philos = init_philos(info);
 	if (multi_thread(philos) == 0)
@@ -35,6 +37,7 @@ t_info	*init_info(char **argv, int argc)
 	if (!info)
 		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	info->philo_count = ft_atoi_prot(argv[1]);
+	info->full_philo_count = 0;
 	info->time_to_die = ft_atoi_prot(argv[2]);
 	info->time_to_eat = ft_atoi_prot(argv[3]);
 	info->time_to_sleep = ft_atoi_prot(argv[4]);
@@ -47,6 +50,7 @@ t_info	*init_info(char **argv, int argc)
 	if (!info->threads)
 		return(ft_putstr_fd("malloc error", STDERR_FILENO), NULL);
 	pthread_mutex_init(&info->start_mutex, NULL);
+	pthread_mutex_init(&info->full_philo_mutex, NULL);
 	info->is_dead = 0;
 	pthread_mutex_init(&info->death_mutex, NULL);
 	return (info);
@@ -82,7 +86,9 @@ t_philo	*init_philos(t_info *info)
 	{
 		philos[i].id = i + 1;
 		philos[i].fork_1 = &info->forks[i];
-		if (i < (info->philo_count - 1))
+		if (info->philo_count == 1)
+			philos[i].fork_2 = NULL;
+		else if (i < (info->philo_count - 1))
 			philos[i].fork_2 = &info->forks[i + 1];
 		else
 			philos[i].fork_2 = &info->forks[0];

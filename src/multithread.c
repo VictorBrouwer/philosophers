@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 15:01:12 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/21 11:17:32 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:36:46 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ int	observe(t_philo *philos)
 			{
 				die(&philos[i]);
 				return (EXIT_FAILURE);
+			}
+			if (philos->info->meals_to_finish != -1)
+			{
+				pthread_mutex_lock(&philos->info->full_philo_mutex);
+				if (philos->info->full_philo_count >= philos->info->philo_count)
+				{
+					die(&philos[i]);
+					pthread_mutex_unlock(&philos->info->full_philo_mutex);
+					return (EXIT_FAILURE);
+				}
+				pthread_mutex_unlock(&philos->info->full_philo_mutex);
 			}
 			i++;
 		}

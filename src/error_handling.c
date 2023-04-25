@@ -6,19 +6,11 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:45:11 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/18 10:21:02 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/25 15:37:31 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	error(const char *str, int errno)
-{
-	ft_putstr_fd(str, STDERR_FILENO);
-	if (errno != 1)
-		exit(errno);
-	exit(EXIT_FAILURE);
-}
 
 void	ft_putstr_fd(const char *s, int fd)
 {
@@ -59,4 +51,22 @@ int	ft_atoi_prot(const char *str)
 		x++;
 	}
 	return (result * sign);
+}
+
+int	check_args(char **argv, int argc)
+{
+	int	count;
+	int	ttd;
+	int	tte;
+	int	tts;
+
+	count = ft_atoi_prot(argv[1]);
+	ttd = ft_atoi_prot(argv[2]);
+	tte = ft_atoi_prot(argv[3]);
+	tts = ft_atoi_prot(argv[4]);
+	if (count < 1 || ttd < 1 || tte < 1 || tts < 1)
+		return (EXIT_FAILURE);
+	if (argc == 6 && (ft_atoi_prot(argv[5]) < 1))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
