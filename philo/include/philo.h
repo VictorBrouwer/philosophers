@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:29:14 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 16:02:07 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:26:04 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PHILO_H
 
 # define ERROR 1
-# define SUCCES 0
+# define SUCCESS 0
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -58,7 +58,7 @@ typedef struct s_philo
 
 // 					FUNCTIONS
 //		MAIN.C
-t_info				*init_info(char **argv, int argc);
+int					init_info(char **argv, int argc, t_info *info);
 pthread_mutex_t		*init_forks(int philo_count);
 t_philo				*init_philos(t_info *info);
 //		MULTITHREAD.C
@@ -69,6 +69,8 @@ int					join_philos(t_philo *philos);
 void				ft_putstr_fd(const char *s, int fd);
 int					ft_atoi_prot(const char *str);
 int					check_args(char **argv, int argc);
+int					check_digits(char *str);
+int					ft_isdigit(int c);
 //		TASKS.C
 void				*routine(void *philos_arg);
 void				uneven_group(t_philo *philo);
@@ -88,5 +90,9 @@ int					start_sleeping(t_philo *philo, int time);
 int					start_eating(t_philo *philo);
 int					take_forks(t_philo *philo);
 void				update_meals(t_philo *philo);
+//		CLEAN.C
+void				clean(t_philo *philo);
+void				clean_mutexes(t_philo *philo);
+void				deallocate_mem(t_philo *philo);
 
 #endif

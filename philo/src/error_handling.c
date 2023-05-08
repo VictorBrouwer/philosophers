@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:45:11 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 16:03:50 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:23:40 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,38 @@ int	check_args(char **argv, int argc)
 	int	tte;
 	int	tts;
 
+	if (check_digits(argv[1]) == 1 || \
+		check_digits(argv[2]) == 1 || \
+		check_digits(argv[3]) == 1 || \
+		check_digits(argv[4]) == 1)
+		return (ERROR);
 	count = ft_atoi_prot(argv[1]);
 	ttd = ft_atoi_prot(argv[2]);
 	tte = ft_atoi_prot(argv[3]);
 	tts = ft_atoi_prot(argv[4]);
 	if (count < 1 || ttd < 1 || tte < 1 || tts < 1)
 		return (ERROR);
-	if (argc == 6 && (ft_atoi_prot(argv[5]) < 1))
+	if (argc == 6 && (check_digits(argv[5]) == 1 || \
+	(ft_atoi_prot(argv[5]) < 1)))
 		return (ERROR);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
+}
+
+int	check_digits(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isdigit(str[i]) == 0)
+			return (ERROR);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
 }

@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 13:22:15 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 16:03:08 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:16:04 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_for_eol(t_philo *philo)
 	}
 	if (check_for_starvation(philo) == 1)
 		return (ERROR);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 void	die(t_philo *philo)
@@ -51,7 +51,7 @@ int	check_for_starvation(t_philo *philo)
 		printf("%lu %d died\n", get_time(philo), philo->id);
 		return (ERROR);
 	}
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 int	check_full_philos(t_philo *philo)
@@ -63,5 +63,5 @@ int	check_full_philos(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->full_philo_mutex);
 	if (full_philos == philo->info->philo_count)
 		return (ERROR);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 15:01:12 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 16:08:05 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:16:04 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	multi_thread(t_philo *philos)
 	}
 	philos->info->start_of_day = get_time_start();
 	pthread_mutex_unlock(&philos->info->start_mutex);
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
 
 int	observe(t_philo *philos)
@@ -68,8 +68,8 @@ int	join_philos(t_philo *philos)
 	while (i < philos->info->philo_count)
 	{
 		if (pthread_join(philos->info->threads[i], NULL) != 0)
-			exit(ERROR);
+			return (ERROR);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (SUCCESS);
 }
