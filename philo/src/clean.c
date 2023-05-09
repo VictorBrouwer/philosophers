@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:18:53 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 13:16:33 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:41:15 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,16 @@ void	clean_philos(t_philo *philos, int count)
 		i++;
 	}
 	free(philos);
+}
+
+void	ft_putstr_fd(const char *s, int fd)
+{
+	int	x;
+
+	x = 0;
+	while (s[x])
+	{
+		write(fd, &s[x], 1);
+		x++;
+	}
 }

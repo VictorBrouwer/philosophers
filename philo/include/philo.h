@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:29:14 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 13:11:51 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:42:10 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int					multi_thread(t_philo *philos);
 int					observe(t_philo *philos);
 int					join_philos(t_philo *philos);
 //		ERROR_HANDLING,C
-void				ft_putstr_fd(const char *s, int fd);
-int					ft_atoi_prot(const char *str);
+int					atoi_check(const char *str);
+int					ft_atoi(const char *str);
 int					check_args(char **argv, int argc);
 int					check_digits(char *str);
 int					ft_isdigit(int c);
@@ -95,5 +95,6 @@ void				update_meals(t_philo *philo);
 void				clean_forks(pthread_mutex_t *forks, int count);
 void				clean_info(t_info *info, int num);
 void				clean_philos(t_philo *philos, int count);
+void				ft_putstr_fd(const char *s, int fd);
 
 #endif

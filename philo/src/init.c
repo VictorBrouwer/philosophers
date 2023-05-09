@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 13:11:20 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 13:11:34 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:38:16 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	init_info(char **argv, int argc, t_info *info)
 {
-	info->philo_count = ft_atoi_prot(argv[1]);
+	info->philo_count = ft_atoi(argv[1]);
 	info->full_philo_count = 0;
-	info->time_to_die = ft_atoi_prot(argv[2]);
-	info->time_to_eat = ft_atoi_prot(argv[3]);
-	info->time_to_sleep = ft_atoi_prot(argv[4]);
+	info->time_to_die = ft_atoi(argv[2]);
+	info->time_to_eat = ft_atoi(argv[3]);
+	info->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		info->meals_to_finish = ft_atoi_prot(argv[5]);
+		info->meals_to_finish = ft_atoi(argv[5]);
 	else
 		info->meals_to_finish = -1;
 	info->forks = init_forks(info->philo_count);
