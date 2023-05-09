@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:29:14 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/08 10:26:04 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:11:51 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ typedef struct s_philo
 }				t_philo;
 
 // 					FUNCTIONS
-//		MAIN.C
+//		INIT.C
 int					init_info(char **argv, int argc, t_info *info);
 pthread_mutex_t		*init_forks(int philo_count);
 t_philo				*init_philos(t_info *info);
+int					init_print_and_meals_mutex(t_philo *philo);
 //		MULTITHREAD.C
 int					multi_thread(t_philo *philos);
 int					observe(t_philo *philos);
@@ -91,8 +92,8 @@ int					start_eating(t_philo *philo);
 int					take_forks(t_philo *philo);
 void				update_meals(t_philo *philo);
 //		CLEAN.C
-void				clean(t_philo *philo);
-void				clean_mutexes(t_philo *philo);
-void				deallocate_mem(t_philo *philo);
+void				clean_forks(pthread_mutex_t *forks, int count);
+void				clean_info(t_info *info, int num);
+void				clean_philos(t_philo *philos, int count);
 
 #endif

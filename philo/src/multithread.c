@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 15:01:12 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/26 11:16:04 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:17:16 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	join_philos(t_philo *philos)
 	while (i < philos->info->philo_count)
 	{
 		if (pthread_join(philos->info->threads[i], NULL) != 0)
-			return (ERROR);
+			return (clean_philos(philos, philos->info->philo_count), ERROR);
 		i++;
 	}
 	return (SUCCESS);

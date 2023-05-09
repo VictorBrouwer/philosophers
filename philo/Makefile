@@ -13,6 +13,7 @@ endif
 INCLUDE		:= $(addprefix -I,$(INC_DIR))
 
 SRCS		:= 		main.c \
+					init.c \
 					multithread.c \
 					error_handling.c \
 					tasks.c \
