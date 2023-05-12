@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:29:14 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 14:42:10 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:19:09 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ typedef struct s_info
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	bool			is_dead;
 	int				meals_to_finish;
 	int				philo_count;
 	int				full_philo_count;
 	unsigned long	start_of_day;
 	pthread_mutex_t	*forks;
 	pthread_t		*threads;
-	pthread_mutex_t	death_mutex;
-	pthread_mutex_t	full_philo_mutex;
-	bool			is_dead;
 	pthread_mutex_t	start_mutex;
+	pthread_mutex_t	full_philo_mutex;
+	pthread_mutex_t	check_for_eol_mutex;
 }				t_info;
 
 typedef struct s_philo
@@ -49,7 +49,6 @@ typedef struct s_philo
 	int				id;
 	pthread_mutex_t	*fork_1;
 	pthread_mutex_t	*fork_2;
-	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	meals_mutex;
 	int				meals_done;
 	unsigned long	time_last_meal;
@@ -61,7 +60,6 @@ typedef struct s_philo
 int					init_info(char **argv, int argc, t_info *info);
 pthread_mutex_t		*init_forks(int philo_count);
 t_philo				*init_philos(t_info *info);
-int					init_print_and_meals_mutex(t_philo *philo);
 //		MULTITHREAD.C
 int					multi_thread(t_philo *philos);
 int					observe(t_philo *philos);
@@ -79,7 +77,6 @@ void				even_group(t_philo *philo);
 int					print_action(t_philo *philo, char *action);
 //		DEATH.C
 int					check_for_eol(t_philo *philo);
-void				die(t_philo *philo);
 int					check_for_starvation(t_philo *philo);
 int					check_full_philos(t_philo *philo);
 //		TIME.C

@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 16:14:53 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/04/25 16:09:12 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:14:30 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ void	even_group(t_philo *philo)
 
 int	print_action(t_philo *philo, char *action)
 {
+	pthread_mutex_lock(&philo->info->check_for_eol_mutex);
 	if (check_for_eol(philo) == 1)
 	{
+		pthread_mutex_unlock(&philo->info->check_for_eol_mutex);
 		return (ERROR);
 	}
-	pthread_mutex_lock(&philo->print_mutex);
 	printf("%lu %d %s\n", get_time(philo), philo->id, action);
-	pthread_mutex_unlock(&philo->print_mutex);
+	pthread_mutex_unlock(&philo->info->check_for_eol_mutex);
 	return (0);
 }

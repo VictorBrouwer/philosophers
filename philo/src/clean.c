@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 11:18:53 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 14:41:15 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:15:11 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	clean_info(t_info *info, int num)
 	if (num >= 2)
 		pthread_mutex_destroy(&info->full_philo_mutex);
 	if (num >= 3)
-		pthread_mutex_destroy(&info->death_mutex);
+		pthread_mutex_destroy(&info->check_for_eol_mutex);
 }
 
 void	clean_philos(t_philo *philos, int count)
@@ -47,7 +47,6 @@ void	clean_philos(t_philo *philos, int count)
 	i = 0;
 	while (i < count)
 	{
-		pthread_mutex_destroy(&philos[i].print_mutex);
 		pthread_mutex_destroy(&philos[i].meals_mutex);
 		i++;
 	}

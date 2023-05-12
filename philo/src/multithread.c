@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 15:01:12 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 13:17:16 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:17:28 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,14 @@ int	observe(t_philo *philos)
 		i = 0;
 		while (i < philos->info->philo_count)
 		{
+			pthread_mutex_lock(&philos->info->check_for_eol_mutex);
 			if (check_for_eol(&philos[i]) == 1)
-				return (die(&philos[i]), ERROR);
-			if (philos->info->meals_to_finish != -1)
 			{
-				pthread_mutex_lock(&philos->info->full_philo_mutex);
-				if (philos->info->full_philo_count >= philos->info->philo_count)
-				{
-					die(&philos[i]);
-					pthread_mutex_unlock(&philos->info->full_philo_mutex);
-					return (ERROR);
-				}
-				pthread_mutex_unlock(&philos->info->full_philo_mutex);
+				philos->info->is_dead = true;
+				pthread_mutex_unlock(&philos->info->check_for_eol_mutex);
+				return (ERROR);
 			}
+			pthread_mutex_unlock(&philos->info->check_for_eol_mutex);
 			i++;
 		}
 	}

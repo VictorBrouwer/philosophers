@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 13:11:20 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 14:38:16 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:19:30 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	init_info(char **argv, int argc, t_info *info)
 	info->time_to_die = ft_atoi(argv[2]);
 	info->time_to_eat = ft_atoi(argv[3]);
 	info->time_to_sleep = ft_atoi(argv[4]);
+	info->is_dead = 0;
 	if (argc == 6)
 		info->meals_to_finish = ft_atoi(argv[5]);
 	else
@@ -33,8 +34,7 @@ int	init_info(char **argv, int argc, t_info *info)
 		return (clean_info(info, 0), ERROR);
 	if (pthread_mutex_init(&info->full_philo_mutex, NULL) != 0)
 		return (clean_info(info, 1), ERROR);
-	info->is_dead = 0;
-	if (pthread_mutex_init(&info->death_mutex, NULL) != 0)
+	if (pthread_mutex_init(&info->check_for_eol_mutex, NULL) != 0)
 		return (clean_info(info, 2), ERROR);
 	return (SUCCESS);
 }
@@ -79,18 +79,9 @@ t_philo	*init_philos(t_info *info)
 		philos[i].meals_done = 0;
 		philos[i].time_last_meal = 0;
 		philos[i].info = info;
-		if (init_print_and_meals_mutex(&philos[i]) == ERROR)
+		if (pthread_mutex_init(&philos[i].meals_mutex, NULL) != 0)
 			return (clean_philos(philos, (i - 1)), NULL);
 		i++;
 	}
 	return (philos);
-}
-
-int	init_print_and_meals_mutex(t_philo *philo)
-{
-	if (pthread_mutex_init(&philo->print_mutex, NULL) != 0)
-		return (ERROR);
-	if (pthread_mutex_init(&philo->meals_mutex, NULL) != 0)
-		return (pthread_mutex_destroy(&philo->print_mutex), ERROR);
-	return (SUCCESS);
 }

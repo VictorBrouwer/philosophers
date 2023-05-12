@@ -6,7 +6,7 @@
 /*   By: vbrouwer <vbrouwer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 11:45:11 by vbrouwer          #+#    #+#             */
-/*   Updated: 2023/05/09 14:40:44 by vbrouwer         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:09:40 by vbrouwer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,15 @@ int	check_args(char **argv, int argc)
 	int	tte;
 	int	tts;
 
-	if (check_digits(argv[1]) == 1 || \
-		check_digits(argv[2]) == 1 || \
-		check_digits(argv[3]) == 1 || \
-		check_digits(argv[4]) == 1)
+	if (check_digits(argv[1]) || \
+		check_digits(argv[2]) || \
+		check_digits(argv[3]) || \
+		check_digits(argv[4]))
 		return (ERROR);
-	if (atoi_check(argv[1]) == 1 || \
-		atoi_check(argv[2]) == 1 || \
-		atoi_check(argv[3]) == 1 || \
-		atoi_check(argv[4]) == 1)
+	if (atoi_check(argv[1]) || \
+		atoi_check(argv[2]) || \
+		atoi_check(argv[3]) || \
+		atoi_check(argv[4]))
 		return (ERROR);
 	count = ft_atoi(argv[1]);
 	ttd = ft_atoi(argv[2]);
@@ -91,8 +91,8 @@ int	check_args(char **argv, int argc)
 	tts = ft_atoi(argv[4]);
 	if (count < 1 || ttd < 1 || tte < 1 || tts < 1)
 		return (ERROR);
-	if (argc == 6 && (check_digits(argv[5]) == 1 || \
-	(ft_atoi(argv[5]) < 1) || atoi_check(argv[5]) == 1))
+	if (argc == 6 && (check_digits(argv[5]) || \
+	(ft_atoi(argv[5]) < 1) || atoi_check(argv[5])))
 		return (ERROR);
 	return (SUCCESS);
 }
